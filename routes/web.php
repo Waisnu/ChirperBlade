@@ -16,9 +16,9 @@ use App\Http\Controllers\ChirpController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function ()  {
     return view('welcome');
-});
+})->name('home');
 
 // route for /gate controller
 

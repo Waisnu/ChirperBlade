@@ -9,10 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property mixed $role
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-
 
 
     /**
@@ -20,7 +22,6 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
 
 
     public function chirps(): HasMany
@@ -55,18 +56,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+
     public function isAuthorized(): bool
     {
-
-        if ($this->role === 'admin') {
-            return true;
-        }
-        elseif ($this->role === 'editor') {
-            return true;
-        }
-        else {
-            return false;
-        }
-
+        return $this->role === 'admin' || $this->role === 'editor';
     }
 }

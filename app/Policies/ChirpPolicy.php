@@ -46,6 +46,13 @@ class ChirpPolicy
      */
     public function delete(User $user, Chirp $chirp): bool
     {
+
+        // Check if the user is an administrator
+        if ($user->isAuthorized()) {
+            return true;
+        }
+
+        // Check if the user is the owner of the chirp
         return $this->update($user, $chirp);
 
     }
