@@ -50,10 +50,23 @@ Route::resource('chirps', ChirpController::class)
 
 
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::middleware(['auth'])->group(function () {
+    // Route for showing the profile edit page
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    // Route for updating the profile information
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    // Route for updating the timezone
+    Route::post('/profile/update/timezone', [ProfileController::class, 'updateTimezone'])->name('profile.update.timezone');
+
+    // Route for deleting the user profile
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
+
+
+
+
+

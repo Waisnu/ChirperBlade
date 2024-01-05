@@ -11,19 +11,47 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+
+
+    public function updateTimezone(Request $request)
+    {
+        $request->validate([
+            'timezone' => 'required|in:' . implode(',', array_keys(config('timezones.options'))),
+        ]);
+
+        $user = Auth::user();
+        $newTimezone = $request->input('timezone');
+
+        // Check if the timezone is actually changed
+        if ($user->timezone !== $newTimezone) {
+            $user->update(['timezone' => $newTimezone]);
+
+            return redirect()->route('profile.edit')->with('status', 'timezone-updated');
+        }
+
+        // The timezone is not changed
+        return redirect()->route('profile.edit')->with('status', 'timezone-not-updated');
+    }
+
+
     /**
      * Display the user's profile form.
      */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        $user = $request->user();
+        $timezones = config('timezones.options', [
+
         ]);
+
+        return view('profile.edit', compact('user', 'timezones'));
     }
+
 
     /**
      * Update the user's profile information.
      */
+
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
