@@ -12,7 +12,7 @@
                 @endcan
 
                 @can('isUser')
-                    @php $greeting = "User!"; @endphp
+                    @php $greeting = "" .auth()->user()->name; @endphp
                 @endcan
 
 

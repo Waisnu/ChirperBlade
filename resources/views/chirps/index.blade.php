@@ -1,3 +1,8 @@
+
+@php
+    use Carbon\Carbon;
+@endphp
+
 <x-app-layout>
     <!-- Main Content Container -->
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
@@ -45,7 +50,17 @@
                                 <span class="text-gray-800">{{ $chirp->user->name }}</span>
 {{--BUG--}}
 
-                                <small class="ml-2 text-sm text-gray-600">{{ $chirp->created_at->format('j M Y, g:i a') }}</small>
+                                <small class="text-sm text-gray-600">
+                                    &middot;
+<strong>
+    <span>
+        {{ $chirp->created_at->tz(auth()->user()->timezone)->diffForHumans() }}
+    </span>
+                                    </strong>
+                                    &middot;
+
+                                    {{ $chirp->created_at->tz(auth()->user()->timezone)->format('j M Y, g:i a') }}
+                                </small>
 
 
 
